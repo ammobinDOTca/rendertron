@@ -1,9 +1,11 @@
 # Dockerfile extending the generic Node image with application files for a
 # single application.
-FROM gcr.io/google_appengine/nodejs
+#FROM gcr.io/google_appengine/nodejs
+#20180704 alpine does not come with apt-get. need to update this file to get it to work
+FROM node:8
 LABEL name="bot-render" \
-      version="0.1" \
-      description="Renders a webpage for bot consumption (not production ready)"
+  version="0.1" \
+  description="Renders a webpage for bot consumption (not production ready)"
 
 RUN apt-get update && apt-get install -y \
   wget \
@@ -18,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 # Check to see if the the version included in the base runtime satisfies
 # '>=7.6', if not then do an npm install of the latest available
 # version that satisfies it.
-RUN /usr/local/bin/install_node '>=7.6'
+#RUN /usr/local/bin/install_node '>=7.6'
 
 COPY . /app/
 
@@ -27,18 +29,19 @@ RUN fc-cache -fv
 
 # Add botrender as a user
 RUN groupadd -r botrender && useradd -r -g botrender -G audio,video botrender \
-    && mkdir -p /home/botrender && chown -R botrender:botrender /home/botrender \
-    && chown -R botrender:botrender /app
+  && mkdir -p /home/botrender && chown -R botrender:botrender /home/botrender \
+  && chown -R botrender:botrender /app
 
 # Run botrender non-privileged
 USER botrender
 
-EXPOSE 8080
+EXPOSE 3000
+WORKDIR /app
 
 RUN npm install || \
   ((if [ -f npm-debug.log ]; then \
-      cat npm-debug.log; \
-    fi) && false)
+  cat npm-debug.log; \
+  fi) && false)
 
 ENTRYPOINT [ "npm" ]
 CMD ["run", "start"]

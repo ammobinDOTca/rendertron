@@ -2,6 +2,17 @@
 
 > Rendertron is a dockerized, headless Chrome rendering solution designed to render & serialise web pages on the fly.
 
+fork for ammobin
+uses: node 8 base image + exposes port 3000 + updated docker file to build on my machine (docker -v
+Docker version 17.12.0-ce)
+
+```
+docker pull ammobindotca/rendertron
+docker run -p 3000:3000 ammobindotca/rendertron
+```
+
+https://hub.docker.com/r/ammobindotca/rendertron/
+
 Rendertron is designed to enable your Progressive Web App (PWA) to serve the correct
 content to any bot that doesn't render or execute JavaScript. Rendertron runs as a
 standalone HTTP server. Rendertron renders requested pages using Headless Chrome,
@@ -149,12 +160,12 @@ npm run start
 After installing docker, build and run the docker image
 ```bash
 docker build -t rendertron . --no-cache=true
-docker run -it -p 8080:8080 --name rendertron-container rendertron
+docker run -it -p 3000:3000 --name rendertron-container rendertron
 ```
 
 Load the homepage in any browser:
 ```bash
-http://localhost:8080/
+http://localhost:3000/
 ```
 
 Stop the container:
@@ -175,12 +186,12 @@ In the case where your kernel lacks user namespace support or are receiving a `E
 [Recommended] Start a container with the built image using Jessie Frazelle' seccomp profile for Chrome:
 ```bash
 wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
-docker run -it -p 8080:8080 --security-opt seccomp=$HOME/chrome.json --name rendertron-container rendertron
+docker run -it -p 3000:3000 --security-opt seccomp=$HOME/chrome.json --name rendertron-container rendertron
 ```
 
 Start a container with the built image using SYS_ADMIN:
 ```bash
-docker run -it -p 8080:8080 --cap-add SYS_ADMIN --name rendertron-container rendertron
+docker run -it -p 3000:3000 --cap-add SYS_ADMIN --name rendertron-container rendertron
 ```
 
 To check if your kernel is compatible with Docker, follow [Docker's instructions](https://docs.docker.com/engine/installation/linux/linux-postinstall/#troubleshooting). For CentOS 7, which doesn't have user namespaces enabled, you will [need to enable them](https://github.com/GoogleChrome/rendertron/issues/96#issuecomment-328305721).
