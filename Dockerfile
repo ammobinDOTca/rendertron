@@ -2,7 +2,7 @@
 # single application.
 #FROM gcr.io/google_appengine/nodejs
 #20180704 alpine does not come with apt-get. need to update this file to get it to work
-FROM node:8
+FROM node:10
 LABEL name="bot-render" \
   version="0.1" \
   description="Renders a webpage for bot consumption (not production ready)"
