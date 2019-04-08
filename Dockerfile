@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY . /app/
 
-ADD thirdfonts /usr/share/fonts/thirdfonts
+# ADD thirdfonts /usr/share/fonts/thirdfonts
 RUN fc-cache -fv
 
 # Add botrender as a user
@@ -43,5 +43,6 @@ RUN npm install || \
   cat npm-debug.log; \
   fi) && false)
 
+RUN npm run build
 ENTRYPOINT [ "npm" ]
 CMD ["run", "start"]
