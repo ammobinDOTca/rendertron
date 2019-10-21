@@ -5,12 +5,14 @@
   "license": "Apache-2.0",
   "repository": "https://github.com/GoogleChrome/rendertron",
   "engines": {
-    "node": ">=7"
+    "node": "10.15.1",
+    "npm": "6.4.1"
   },
   "main": "build/rendertron.js",
   "types": "build/rendertron.d.ts",
   "bin": "bin/rendertron",
   "scripts": {
+    "heroku-postbuild": "npm run build",
     "build": "tsc",
     "prepack": "npm run build",
     "start": "node build/rendertron.js",
